@@ -14,7 +14,7 @@ A design challenge I came up with for the local discord server that I'm a part o
 
 If you like this project, you can check out the other submissions below!
 
-## Demo - check it out [*here*](merry-unicorn-c978d5.netlify.app)
+## Demo - check it out [*here*](https://merry-unicorn-c978d5.netlify.app)
 
 *Demo on Large Screen Device*  
 <img src="/src/assets/buttonwrangler-github.gif" alt="Button Wrangler Large Image" width="60%" />

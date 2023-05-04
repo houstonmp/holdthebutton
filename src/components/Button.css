@@ -1,0 +1,79 @@
+.btn {
+    position: absolute;
+    transform-origin: center;
+    /* transform: translate(50%, 50%); */
+    top: calc(50% - 5vh);
+    left: calc(50% - 5vh);
+    color: black;
+    width: 10vh;
+    height: 10vh;
+    border-radius: 100%;
+    transition: background-color 2s, width 3.5s, height 3.5s, transform 5s;
+
+}
+
+.green:active,
+.green:hover {
+    color: white;
+    background-color: green;
+}
+
+.red:active,
+.red:hover {
+    color: white;
+    background-color: red;
+}
+
+.blue:active,
+.blue:hover {
+    color: white;
+    background-color: blue;
+}
+
+.orange:active,
+.orange:hover {
+    color: white;
+    background-color: orange;
+}
+
+.longRect:active,
+.longRect:hover {
+    width: 80%;
+    height: 20%;
+}
+
+.wideRect:active,
+.wideRect:hover {
+    width: 20%;
+    height: 80%
+}
+
+.skinnyRect:active,
+.skinnyRect:hover {
+    width: 90%;
+    height: 5%;
+}
+
+.skinnyWideRect:active,
+.skinnyWideRect:hover {
+    width: 5%;
+    height: 90%;
+}
+
+.moveLeft {
+    transform: translateX(calc(50% - 5vh));
+}
+
+.moveRight {
+    transform: translateX(calc(50% - 5vh));
+}
+
+.moveUp {
+    transform: translateY(calc(50% - 5vh));
+}
+
+.moveDown {
+    transform: translateY(calc(50% - 5vh));
+}
+
+.moveCenter {}

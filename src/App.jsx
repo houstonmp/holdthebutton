@@ -1,42 +1,58 @@
 import { useState, useEffect, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import Button from './components/Button'
-import './App.css'
+import Button from './components/Button';
+import Modal from './components/Modal';
+import './App.css';
 
 function App() {
-  const [btntext, setBtnText] = useState("Hold me!");
+  const [btntext, setBtnText] = useState("Hold mouse to start!");
+  //Main Game Data
   const gameState = useRef({
     isPlaying: false,
-    startTime: undefined
+    startTime: undefined,
   });
+
+  //Button Styling
   const [btnStyle, setStyle] = useState('');
-  const [mainStyle, setMain] = useState('');
+
+  const [displayModal, setModal] = useState({ isDisplay: false, highScores: [] });
+  //Time Object for use in calculating Button Styles
+  //This function is needed for the onMouseDown Event since
+  //useState preserves state within the event
   const timeObj = useRef({
-    days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
     milliseconds: 0
   })
-  // const [timer, setTimer] = useState({
-  //   start: undefined,
-  //   end: undefined
-  // });
 
+  //Styling options for the game
   const colorStyles = ['green', 'orange', 'blue', 'red'];
-  const sizeStyles = ['longRect', 'wideRect', 'skinnyRect', 'skinnyWideRect'];
-  const moveStyles = ['moveLeft', 'moveCenter', 'moveRight', 'moveUp', 'moveDown'];
+  const sizeStyles = ['longRectVertLeft', 'longRectVertRight', 'longRectVertCenter', 'wideRectTop', 'wideRectBottom', 'wideRectCenter'];
 
+  //Start the game
   const onGameStart = () => {
-    gameState.current = {
-      isPlaying: true,
-      startTime: Date().toLocaleString()
+    setBtnText("Hold on!");
+
+    let userScores = localStorage.getItem("userScores");
+    if (userScores) {
+      gameState.current = {
+        isPlaying: true,
+        startTime: Date().toLocaleString(),
+      }
+      setModal({ isDisplay: false, highScores: JSON.parse(userScores) });
+    } else {
+      gameState.current = {
+        isPlaying: true,
+        startTime: Date().toLocaleString()
+      }
+      setModal({ isDisplay: false, highScores: [] });
     }
   }
 
+  //useState timer for the clock
   const [timer, setTime] = useState({
-    days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0,
@@ -44,83 +60,142 @@ function App() {
     fullTime: `0:0:0:0:00`
   });
 
+
+  //Set the time and assign it to the timer state
   const getTime = () => {
     if (gameState.current.isPlaying) {
       const time = Date.now() - Date.parse(gameState.current.startTime);
+
+      //timeObj points to the useRef version of the object
       timeObj.current = {
-        days: Math.floor((time / (1000 * 60 * 60 * 24))),
         hours: Math.floor((time / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((time / 1000 / 60) % 60),
         seconds: Math.floor((time / 1000) % 60),
         milliseconds: Math.floor(time) % 1000,
       };
 
+      let tempTime = [`${timeObj.current.hours}`, `${timeObj.current.minutes}`, `${timeObj.current.seconds}`]
 
-      // console.log("Setting Time Object:", timeObj, timer.seconds);
-      setTime({ ...timeObj.current, fullTime: `${timeObj.current.days}:${timeObj.current.hours}:${timeObj.current.minutes}:${timeObj.current.seconds}:${timeObj.current.milliseconds}` });
+      function addZero(times, length) {
+        if (times.length === length) {
+          console.log(times);
+          return times;
+        } else {
+          return addZero(`0${times}`, length);
+        }
+      }
+      for (let i = 0; i < tempTime.length; i++) {
+        if (tempTime[i].length < 2) {
+          tempTime[i] = addZero(tempTime[i], 2);
+        }
+      }
+      console.log(tempTime);
 
-      // setObj(timeObj);
+      let tempMill = `${timeObj.current.milliseconds}`;
+
+      if (tempMill.length < 3) {
+        tempMill = addZero(tempMill, 3);
+      }
+
+
+      setTime({ ...timeObj.current, fullTime: `${tempTime[0]}:${tempTime[1]}:${tempTime[2]},${tempMill}` });
+
     }
 
   };
 
+  //Ends game within the button component
   const onGameEnd = () => {
+    setBtnText("Try Again!");
+    let userScores = localStorage.getItem("userScores")
+    if (gameState.current.isPlaying && userScores) {
+      userScores = JSON.parse(userScores);
+      userScores.push({
+        name: "Player 1",
+        time: timer.fullTime
+      });
+      localStorage.setItem("userScores", JSON.stringify(userScores));
+    } else {
+      userScores = [{
+        name: "Player 1",
+        time: timer.fullTime
+      }]
+      localStorage.setItem("userScores", JSON.stringify(userScores));
+    }
+
     gameState.current = (current) => {
       return {
         isPlaying: false,
-        startTime: current.startTime
+        startTime: current.startTime,
       }
     }
+    setModal({ isDisplay: true, highScores: userScores });
 
+    //Sets the button style back to its default style
     setStyle('')
-    // console.log(`Final time:${timer.fullTime}`);
   }
 
   const onChangeStyling = () => {
     let size = '';
     let styling = '';
-    let move = '';
+    let btnText = '';
 
     if (gameState.current.isPlaying && timeObj.current.seconds >= 5) {
+      btnText = "Hold on!"
       let color = Math.floor((Math.random() * colorStyles.length));
       styling = `${colorStyles[color]}`;
       if (timeObj.current.seconds >= 10) {
+        btnText = "Here we go!"
         size = Math.floor((Math.random() * sizeStyles.length));
         styling += ` ${sizeStyles[size]}`
-        if (timeObj.current.seconds >= 20) {
-          move = Math.floor((Math.random() * moveStyles.length));
-          styling += ` ${moveStyles[move]}`
+        if (timeObj.current.seconds >= 30) {
+          btnText = "Great Job!"
+          if (timeObj.current.minutes >= 1) {
+            btnText = "Wow!"
+            if (timeObj.current.minutes >= 5) {
+              btnText = "Keep going!"
+              if (timeObj.current.minutes >= 30) {
+                btnText = "Amazing!"
+                if (timeObj.current.hours >= 1) {
+                  btnText = "What the heck!"
+                }
+              }
+            }
+          }
         }
       }
-      // console.log("Color", color, "Size", size);
+      setBtnText(btnText);
       setStyle(styling);
     }
   }
 
+  //Sets intervals for time management ans button styling
   useEffect(() => {
     const interval = setInterval(() => { getTime(gameState.startTime) }, 10);
 
     const interval2 = setInterval(() => onChangeStyling(), 2000);
-    // setTimeout(() => onChangeStyling(timer), 2000);
+
     return () => {
       clearInterval(interval);
       clearInterval(interval2);
     }
   }, [gameState.current.isPlaying]);
 
-  // useEffect(() => {
-  //   console.log("Enterring Use Effect");
-  //   const interval = setInterval(() => onChangeStyling(), 2000);
-  //   console.log(interval);
-  //   return () => clearInterval(interval);
-  // }, [gameState.isPlaying]);
+  const onCloseModal = () => {
+    setModal((prev) => {
+      return { isDisplay: false, highScores: prev.highScores }
+    });
+  }
 
   return (
     <>
-      <h1>Hold the Button Rodeo</h1>
-      {<h2 className="timer">{(gameState.current.isPlaying || gameState.current.startTime) ? timer.fullTime : 'Hold the Button to Start!'}</h2>}
+      {displayModal.isDisplay && <Modal currentScore={timer.fullTime} userScores={displayModal.highScores} onCloseModal={onCloseModal} />}
+      <h1>Button Wrangler</h1>
+      {     /* Stopwatch */}
+      {<h2 className="timer">{(gameState.current.isPlaying || gameState.current.startTime) ? timer.fullTime : btntext}</h2>}
       <main className="">
-        <Button text={btntext} onGameStart={onGameStart} onGameEnd={onGameEnd} btnStyle={btnStyle} />
+        {/* Button to hold onto */}
+        <Button text={btntext} isPlaying={gameState.current.isPlaying} onGameStart={onGameStart} onGameEnd={onGameEnd} btnStyle={btnStyle} />
       </main>
     </>
   )

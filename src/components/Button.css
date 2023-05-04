@@ -1,79 +1,83 @@
 .btn {
-    position: absolute;
-    transform-origin: center;
-    /* transform: translate(50%, 50%); */
-    top: calc(50% - 5vh);
-    left: calc(50% - 5vh);
+    display: block;
     color: black;
-    width: 10vh;
-    height: 10vh;
+    width: 20vh;
+    height: 20vh;
+    margin: 30vh calc(50% - 10vh) 0;
+    border: 3px solid white;
+    font-family: 'Comme', sans-serif;
+    font-size: 2rem;
     border-radius: 100%;
-    transition: background-color 2s, width 3.5s, height 3.5s, transform 5s;
+    transition: background-color .9s ease-in, width 3.5s, height 3.5s, margin 3.5s;
+    cursor: pointer;
+}
 
+.btn:hover {
+    color: white;
+    background-color: #242424;
 }
 
 .green:active,
 .green:hover {
     color: white;
-    background-color: green;
+    background-color: #4DA1A9;
 }
 
 .red:active,
 .red:hover {
     color: white;
-    background-color: red;
+    background-color: #611C35;
 }
 
 .blue:active,
 .blue:hover {
     color: white;
-    background-color: blue;
+    background-color: #2E5077;
 }
 
 .orange:active,
 .orange:hover {
     color: white;
-    background-color: orange;
+    background-color: #FFA630;
 }
 
-.longRect:active,
-.longRect:hover {
-    width: 80%;
-    height: 20%;
+.greenYellow {
+    color: black;
+    background-color: #D7E8BA;
 }
 
-.wideRect:active,
-.wideRect:hover {
-    width: 20%;
-    height: 80%
+.longRectVertLeft {
+    width: 20vh;
+    height: calc(80vh - 8px);
+    margin: 4px 0 4px 4px;
 }
 
-.skinnyRect:active,
-.skinnyRect:hover {
-    width: 90%;
-    height: 5%;
+.longRectVertRight {
+    width: 20vh;
+    height: calc(80vh - 8px);
+    margin: 4px 4px 4px calc((100% - 16px - 20vh));
 }
 
-.skinnyWideRect:active,
-.skinnyWideRect:hover {
-    width: 5%;
-    height: 90%;
+.longRectVertCenter {
+    width: 20vh;
+    height: calc(80vh - 8px);
+    margin: 4px calc(50% - 10vh);
 }
 
-.moveLeft {
-    transform: translateX(calc(50% - 5vh));
+.wideRectCenter {
+    width: calc(100% - 16px);
+    height: 20vh;
+    margin: calc((80vh - 20vh - 8px) / 2) 4px 0;
 }
 
-.moveRight {
-    transform: translateX(calc(50% - 5vh));
+.wideRectTop {
+    width: calc(100% - 16px);
+    height: 20vh;
+    margin: 4px 4px 0;
 }
 
-.moveUp {
-    transform: translateY(calc(50% - 5vh));
+.wideRectBottom {
+    width: calc(100% - 16px);
+    height: 20vh;
+    margin: calc(80vh - 20vh - 8px) 4px 0;
 }
-
-.moveDown {
-    transform: translateY(calc(50% - 5vh));
-}
-
-.moveCenter {}

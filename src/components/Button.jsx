@@ -8,7 +8,9 @@ const Button = (props) => {
     }
 
     const buttonStopHandler = () => {
-        props.onGameEnd();
+        if (props.isPlaying) {
+            props.onGameEnd();
+        }
     }
 
     return (

@@ -15,7 +15,7 @@ const Button = (props) => {
 
     return (
         <>
-            <button className={`btn ${props.btnStyle}`} onTouchStart={buttonHoldHandler} onTouchEnd={buttonStopHandler} onTouchCancel={buttonStopHandler} onMouseDown={buttonHoldHandler} onMouseOut={buttonStopHandler} onMouseUp={buttonStopHandler}>{props.text}</button >
+            <button className={`btn ${props.btnStyle}`} onTouchStart={buttonHoldHandler} onTouchEnd={buttonStopHandler} onMouseDown={buttonHoldHandler} onMouseOut={buttonStopHandler} onMouseUp={buttonStopHandler}>{props.text}</button >
         </>
     )
 }

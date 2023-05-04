@@ -5,9 +5,14 @@ A simple hold the button game where the button moves around the screen.
 
 ## Description
 
-A design challenge I came up with for the local discord server that I'm a part of. The goal of this game is to see how long you can hold and hover over the button. The button begins in the center of the screen and starts to move around after a couple of seconds. Once you let go of the mouse or leave the button area the game is over.
+A design challenge I came up with for the local discord server that I'm a part of and made in React.js. The goal of this game is to see how long you can hold and hover over the button. The button begins in the center of the screen and starts to move around after a couple of seconds. Once you let go of the mouse or leave the button area the game is over.
 
-The game was made in React.js and is fully responsive, although the game is much more difficult on a large screen than a small one. The game uses localStorage to store all of the player scores, however, it lacks functionality to change your name at the moment. If you like this project, you can check out the other submissions below!
+### Features
+  - Fully Responsive (Game is more difficult on larger screens)
+  - Uses localStorage to store highscores (Lacks functionality to change your name at the moment)
+  - Features various levels that increasingly make the game more difficult
+
+If you like this project, you can check out the other submissions below!
 
 ## Demo - check it out [*here*](merry-unicorn-c978d5.netlify.app)
 
